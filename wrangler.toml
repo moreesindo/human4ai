@@ -1,5 +1,9 @@
 name = "human4ai"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
 
-[site]
-bucket = "./dist"
+[[d1_databases]]
+binding = "DB"
+database_name = "human4ai-db"
+database_id = "REPLACE_WITH_YOUR_DATABASE_ID"
