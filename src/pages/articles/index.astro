@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title="文章" description="关于人类在AI时代不可替代性的思考与记录">
+  <Nav />
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <div class="mb-16">
+      <p class="font-mono text-xs text-amber-400 tracking-widest uppercase mb-4">Archive</p>
+      <h1 class="text-3xl font-black text-white">所有文章</h1>
+    </div>
+
+    {
+      articles.length === 0 ? (
+        <div class="py-16 text-center">
+          <p class="text-subtle">文章正在写作中，敬请期待。</p>
+        </div>
+      ) : (
+        <ul class="divide-y divide-border">
+          {articles.map((article) => (
+            <li>
+              <a
+                href={`/articles/${article.id}`}
+                class="group flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6 py-6 hover:bg-surface -mx-4 px-4 rounded-sm transition-colors"
+              >
+                <time class="font-mono text-xs text-muted shrink-0 mt-1">
+                  {formatDate(article.data.date)}
+                </time>
+                <div class="flex-1">
+                  <h2 class="text-white font-medium group-hover:text-amber-400 transition-colors mb-1">
+                    {article.data.title}
+                  </h2>
+                  <p class="text-subtle text-sm leading-relaxed mb-3">{article.data.description}</p>
+                  {article.data.tags.length > 0 && (
+                    <div class="flex gap-2 flex-wrap">
+                      {article.data.tags.map((tag) => (
+                        <span class="font-mono text-xs text-muted border border-border px-2 py-0.5 rounded-sm">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </main>
+
+  <footer class="border-t border-border">
+    <div class="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between">
+      <p class="font-mono text-xs text-muted">© 2025 human4ai.ai</p>
+    </div>
+  </footer>
+</Layout>

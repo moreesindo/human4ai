@@ -1,0 +1,133 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout>
+  <Nav />
+
+  <!-- Hero -->
+  <section class="max-w-3xl mx-auto px-6 pt-24 pb-20">
+    <p class="font-mono text-xs text-amber-400 tracking-widest uppercase mb-8">
+      A Signal in the Noise
+    </p>
+    <h1 class="text-5xl md:text-7xl font-black text-white leading-[1.05] tracking-tight mb-8">
+      AI 越强，<br />
+      <span class="text-amber-400">人类越值钱。</span>
+    </h1>
+    <p class="text-lg text-subtle max-w-xl leading-relaxed mb-12">
+      这是所有人都搞反了的命题。当机器开始处理一切可预测的事情，
+      人类那些说不清楚的能力——判断、共情、创造、信任——
+      反而变成了稀缺资源。
+    </p>
+
+    <div class="flex items-center gap-4">
+      <a
+        href="/articles"
+        class="inline-flex items-center gap-2 bg-amber-400 text-bg font-semibold text-sm px-5 py-3 rounded-sm hover:bg-amber-500 transition-colors"
+      >
+        开始阅读
+        <span>→</span>
+      </a>
+      <a
+        href="/about"
+        class="inline-flex items-center gap-2 text-subtle text-sm hover:text-text transition-colors"
+      >
+        这是什么
+      </a>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="border-t border-border"></div>
+  </div>
+
+  <!-- Latest Articles -->
+  <section class="max-w-3xl mx-auto px-6 py-16">
+    <div class="flex items-baseline justify-between mb-10">
+      <h2 class="text-xs font-mono text-subtle tracking-widest uppercase">最新文章</h2>
+      <a href="/articles" class="text-xs text-amber-400 hover:text-amber-500 transition-colors">
+        全部 →
+      </a>
+    </div>
+
+    {
+      articles.length === 0 ? (
+        <p class="text-subtle text-sm">文章正在写作中，敬请期待。</p>
+      ) : (
+        <ul class="divide-y divide-border">
+          {articles.map((article) => (
+            <li>
+              <a
+                href={`/articles/${article.id}`}
+                class="group flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6 py-6 hover:bg-surface -mx-4 px-4 rounded-sm transition-colors"
+              >
+                <time class="font-mono text-xs text-muted shrink-0 mt-1">
+                  {formatDate(article.data.date)}
+                </time>
+                <div>
+                  <h3 class="text-white font-medium group-hover:text-amber-400 transition-colors mb-1">
+                    {article.data.title}
+                  </h3>
+                  <p class="text-subtle text-sm leading-relaxed">{article.data.description}</p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <!-- Manifesto strip -->
+  <section class="border-t border-border">
+    <div class="max-w-3xl mx-auto px-6 py-16">
+      <p class="font-mono text-xs text-subtle tracking-widest uppercase mb-6">核心命题</p>
+      <div class="grid md:grid-cols-3 gap-8">
+        {
+          [
+            {
+              signal: '01',
+              title: '判断力',
+              body: '在信息过载的时代，知道什么重要、什么可以忽略，是机器最难复刻的能力。',
+            },
+            {
+              signal: '02',
+              title: '真实连接',
+              body: '人们不是在找更多内容，而是在找能被理解的感觉。这只有人能给。',
+            },
+            {
+              signal: '03',
+              title: '承担后果',
+              body: 'AI 可以给出建议，但无法承担责任。责任感本身，就是人类的护城河。',
+            },
+          ].map((item) => (
+            <div>
+              <p class="font-mono text-xs text-amber-400 mb-3">{item.signal}</p>
+              <h3 class="text-white font-semibold mb-2">{item.title}</h3>
+              <p class="text-subtle text-sm leading-relaxed">{item.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-border">
+    <div class="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between">
+      <p class="font-mono text-xs text-muted">© 2025 human4ai.ai</p>
+      <p class="text-xs text-muted">探索人类在智能时代的不可替代性</p>
+    </div>
+  </footer>
+</Layout>

@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+---
+
+<Layout title="关于" description="human4ai.ai 是什么，为什么存在">
+  <Nav />
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <div class="mb-16">
+      <p class="font-mono text-xs text-amber-400 tracking-widest uppercase mb-4">About</p>
+      <h1 class="text-3xl font-black text-white">这是什么</h1>
+    </div>
+
+    <div class="prose prose-invert prose-lg max-w-none
+      prose-headings:font-bold prose-headings:tracking-tight
+      prose-a:text-amber-400 prose-a:no-underline hover:prose-a:underline
+      prose-blockquote:border-amber-400 prose-blockquote:text-subtle
+      prose-hr:border-border
+      prose-strong:text-white
+    ">
+      <p>
+        每次新技术出现，人们都会恐慌：这次我们会被替代吗？
+      </p>
+      <p>
+        印刷机出现，手工抄写员消失了。但作家变多了。<br />
+        计算器出现，人工计算员消失了。但工程师变多了。<br />
+        AI 出现，某些工作会消失。但人类的某些能力，会变得比以往任何时候都值钱。
+      </p>
+      <p>
+        问题不是"AI 会取代我吗"，而是"当 AI 处理所有可预测的事情之后，我能做什么"。
+      </p>
+
+      <hr />
+
+      <h2>这个站点在做什么</h2>
+      <p>
+        <strong>human4ai.ai</strong> 记录一个问题的探索过程：
+        <em>在 AI 时代，人类的不可替代性究竟在哪里？</em>
+      </p>
+      <p>不是焦虑，不是宣言，而是真实的调查和思考。</p>
+      <p>
+        每篇文章是一个具体的命题。关于某个职业、某种技能、某类场景。
+        逐渐积累成一张地图——人类能力的地图。
+      </p>
+
+      <hr />
+
+      <h2>复利在哪里</h2>
+      <p>
+        知识的价值在于连接。一篇关于医生判断力的文章，
+        连接到另一篇关于信任的文章，再连接到关于责任的文章——
+        它们共同构成一个你没法轻易 Google 到的视角。
+      </p>
+      <p>这就是这个站点想做的事：一点一点，建立一个有价值的视角体系。</p>
+    </div>
+  </main>
+
+  <footer class="border-t border-border mt-16">
+    <div class="max-w-3xl mx-auto px-6 py-8">
+      <p class="font-mono text-xs text-muted">© 2025 human4ai.ai</p>
+    </div>
+  </footer>
+</Layout>

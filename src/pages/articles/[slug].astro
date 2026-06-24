@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title={article.data.title} description={article.data.description}>
+  <Nav />
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <!-- Article header -->
+    <header class="mb-12">
+      {
+        article.data.tags.length > 0 && (
+          <div class="flex gap-2 mb-6">
+            {article.data.tags.map((tag) => (
+              <span class="font-mono text-xs text-amber-400 border border-amber-400/30 px-2 py-0.5 rounded-sm">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+      <h1 class="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+        {article.data.title}
+      </h1>
+      <p class="text-subtle text-lg leading-relaxed mb-6">{article.data.description}</p>
+      <time class="font-mono text-xs text-muted">{formatDate(article.data.date)}</time>
+    </header>
+
+    <div class="border-t border-border mb-12"></div>
+
+    <!-- Article content -->
+    <article class="prose prose-invert prose-lg max-w-none
+      prose-headings:font-bold prose-headings:tracking-tight
+      prose-a:text-amber-400 prose-a:no-underline hover:prose-a:underline
+      prose-code:text-amber-400 prose-code:font-mono prose-code:text-sm
+      prose-blockquote:border-amber-400 prose-blockquote:text-subtle
+      prose-hr:border-border
+      prose-strong:text-white
+    ">
+      <Content />
+    </article>
+
+    <!-- Back link -->
+    <div class="mt-16 pt-8 border-t border-border">
+      <a href="/articles" class="text-sm text-subtle hover:text-text transition-colors">
+        ← 返回所有文章
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-border">
+    <div class="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between">
+      <p class="font-mono text-xs text-muted">© 2025 human4ai.ai</p>
+    </div>
+  </footer>
+</Layout>

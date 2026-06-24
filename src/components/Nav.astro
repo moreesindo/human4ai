@@ -1,0 +1,31 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="border-b border-border">
+  <div class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="font-mono text-sm text-amber-400 hover:text-amber-500 transition-colors">
+      human4ai.ai
+    </a>
+    <div class="flex items-center gap-6">
+      <a
+        href="/articles"
+        class:list={[
+          'text-sm transition-colors',
+          currentPath.startsWith('/articles') ? 'text-text' : 'text-subtle hover:text-text',
+        ]}
+      >
+        文章
+      </a>
+      <a
+        href="/about"
+        class:list={[
+          'text-sm transition-colors',
+          currentPath === '/about' ? 'text-text' : 'text-subtle hover:text-text',
+        ]}
+      >
+        关于
+      </a>
+    </div>
+  </div>
+</nav>
